@@ -1,8 +1,4 @@
 ## CASM(Cyber Asset Surveying & Mapping)网络资产测绘系统
-<a href="https://github.com/tsaitang404/CASM/stargazers"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/adysec/CASM?color=yellow&logo=riseup&logoColor=yellow&style=flat-square"></a>
-<a href="https://github.com/adysec/CASM/network/members"><img alt="GitHub forks" src="https://img.shields.io/github/forks/adysec/CASM?color=orange&style=flat-square"></a>
-<a href="https://github.com/adysec/CASM/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/adysec/CASM?color=red&style=flat-square"></a>
-
 
 ### 简介
 旨在快速侦察与目标关联的互联网资产，构建基础资产信息库。
