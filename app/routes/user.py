@@ -26,6 +26,8 @@ class LoginCASM(CASMResource):
         用户登录
         """
         args = self.parse_args(login_fields)
+
+
         return build_data(utils.user_login(**args))
 
 
@@ -98,5 +100,3 @@ def build_data(data):
         ret["code"] = 401
 
     return ret
-
-
