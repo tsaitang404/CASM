@@ -10363,8 +10363,7 @@
     and management interface of the digi connect sp python."
 - name: Digifort
   rule: body="content=\"digifort" && body="href=\"http://www.digifort.jp/\"><img src=\"/user_data/packages/digifort_pc/img/common/logo.gif"
-    && body="digifort http " && body="serveur digifort http" && body="digifort http
-    " && body="serveur digifort http"
+    && body="digifort http " && body="serveur digifort http" && body="digifort http" && body="serveur digifort http"
 - name: Digifort
   rule: header="realm=\"digifort http " && header="realm=\"serveur digifort http"
 - name: Digi-One
@@ -11573,8 +11572,7 @@
 - name: Hexabyte-ADSL
   rule: header="realm=\"hexabyte adsl"
 - name: HFS
-  rule: body="hfs/\">httpfileserver" && body="<a href=\"http://www.rejetto.com/hfs/\">httpfileserver
-    2.3g</a>"
+  rule: body="hfs/\">httpfileserver" && body="<a href=\"http://www.rejetto.com/hfs/\">httpfileserver2.3g</a>"
 - name: HG100R-L4
   rule: body="nav.rg_str_incorrect_id_password" && body="copyright &copy; 2014 humax
     co."
@@ -11905,8 +11903,7 @@
 - name: HUMAX-QUANTUM-T3A
   rule: body="class=\"pro-model\" align=\"left"
 - name: HUMAX-QUANTUM-T3AV2
-  rule: 'body="id=\"product_model\"><script>dw(mdl_name)" && body="dw(\"t3atv2\")
-    : dw(\"t3av2"'
+  rule: 'body="id=\"product_model\"><script>dw(mdl_name)" && body="dw(\"t3atv2\"): dw(\"t3av2"'
 - name: hunchentoot
   rule: icon_hash="43d4aa56dc796067b442c95976a864fd"
 - name: Hybrid-Cluster
@@ -12604,7 +12601,8 @@
     background-repeat:no-repeat;\">"
 - name: LG-Smart-TV
   rule: body="<modelname>lg smart tv</modelname>" && body="<friendlyname>lg smart
-    tv</friendlyname>" && body="<friendlyname>[lg] smart tv"
+    tv</friendlyname>" && body="<friendlyname>[lg
+] smart tv"
 - name: LG-SuperSign
   rule: body="src=\"/ssw/js/user/index.js"
 - name: LG-webOS-TV
@@ -12641,8 +12639,7 @@
 - name: Linksys-IP-Cameras
   rule: body="content=\"wvc54gca" && body="content=\"wvc80n" && body="<img border=\"0\"
     src=\"linksys_blue_logo.gif\"></td>" && body="<a href=\"http://www.linksys.com/\"
-    class=\"mainmenu\" target=\"_blank\"><script>dw(tm05)</script></a></td>" && body="content=\"lcs
-    3024" && body="align=\"center\">compact wireless-g"
+    class=\"mainmenu\" target=\"_blank\"><script>dw(tm05)</script></a></td>" && body="content=\"lcs3024" && body="align=\"center\">compact wireless-g"
 - name: Linksys-Modem
   rule: body="content=\"belkin"
 - name: Linksys-Print-Server
@@ -13632,7 +13629,7 @@
   rule: body=" href=\"/newimages/login/logo_icon.ico"
 - name: PCITC-Management-Platform
   rule: body="window.open(\"http://itmc.mmsh.sinopec.com/itgk/sysmgr/productregister/yunweiproregister.view\");
-    }  "
+}  "
 - name: pcitc-RemoteSystem
   rule: body="src=\"validatecode.aspx\"" && body="class=\"f-loading-mask ui-widget
     ui-widget-content"
@@ -14220,8 +14217,7 @@
 - name: Sagemcom-TR-069
   rule: header="realm=\"sagemcom tr-069"
 - name: Salien-Performance-Management-Platform
-  rule: body="href=\"images/login/cbgl/favicon.ico\"" && body="content=\"copyright
-    2010 www.salien.com.cn"
+  rule: body="href=\"images/login/cbgl/favicon.ico\"" && body="content=\"copyright2010 www.salien.com.cn"
 - name: SaltStack
   rule: body="shape=\"ss-logo-black"
 - name: samPHPweb
@@ -14890,8 +14886,7 @@
 - name: tea
   rule: icon_hash="1fd3fafc1d461a3d19e91dbbba03d0aa"
 - name: Team-Board
-  rule: body="<a href=\"licence.asp\"><b style='color:#ff9900'>" && body="href=http://www.team5.cn\"><b>team
-    " && body="team5.cn by daymoon"
+  rule: body="<a href=\"licence.asp\"><b style='color:#ff9900'>" && body="href=http://www.team5.cn\"><b>team" && body="team5.cn by daymoon"
 - name: TeamDoc-FileSystem
   rule: body="id=\"labellink\"" && body="id=\"table_01"
 - name: Techbridge-Cloud-Conference

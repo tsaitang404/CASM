@@ -265,8 +265,6 @@ exclude_rules:
 - 修复：检验AK有效性时，如果不联网标记为(Network Error)
 - 修复：检验腾讯云 SK 有效时，正确输出 AppId
 
-## 已经集成到 ARL
 
 
-https://tophanttechnology.github.io/ARL-doc/function_desc/web_info_hunter/
 

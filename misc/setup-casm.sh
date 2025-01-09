@@ -107,7 +107,7 @@ fi
 if ! command -v nuclei &> /dev/null
 then
   echo "install nuclei"
-  wget -c https://github.com/adysec/ARL/raw/master/tools/nuclei.zip -O nuclei.zip
+  wget -c https://github.com/tsaitang404/CASM/raw/main/tools/nuclei.zip -O nuclei.zip
   unzip nuclei.zip && mv nuclei /usr/bin/ && rm -f nuclei.zip
   nuclei -ut
   rm -rf /opt/*
@@ -118,7 +118,7 @@ if ! command -v wih &> /dev/null
 then
   echo "install wih ..."
   ## 安装 WIH
-  wget -c https://github.com/adysec/ARL/raw/master/tools/wih/wih_linux_amd64 -O /usr/bin/wih && chmod +x /usr/bin/wih
+  wget -c https://github.com/tsaitang404/CASM/raw/main/tools/wih/wih_linux_amd64 -O /usr/bin/wih && chmod +x /usr/bin/wih
   wih --version
 fi
 
@@ -130,14 +130,14 @@ systemctl enable rabbitmq-server
 systemctl restart rabbitmq-server
 
 cd /opt
-if [ ! -d ARL ]; then
+if [ ! -d CASM ]; then
   echo "git clone CASM proj"
   git clone https://github.com/tsaitang404/CASM
 fi
 
 if [ ! -d "CASM-NPoC" ]; then
   echo "mv CASM-NPoC proj"
- mv ARL/tools/CASM-NPoC CASM-NPoC
+ mv CASM/tools/CASM-NPoC CASM-NPoC
 fi
 
 cd /opt/CASM-NPoC
@@ -148,25 +148,25 @@ cd ../
 
 if [ ! -f /usr/local/bin/ncrack ]; then
   echo "Download ncrack ..."
-  wget -c https://github.com/adysec/ARL/raw/master/tools/ncrack -O /usr/local/bin/ncrack
+  wget -c https://github.com/tsaitang404/CASM/raw/main/tools/ncrack -O /usr/local/bin/ncrack
   chmod +x /usr/local/bin/ncrack
 fi
 
 mkdir -p /usr/local/share/ncrack
 if [ ! -f /usr/local/share/ncrack/ncrack-services ]; then
   echo "Download ncrack-services ..."
-  wget -c https://github.com/tsaitang404/CASM/raw/master/tools/ncrack-services -O /usr/local/share/ncrack/ncrack-services
+  wget -c https://github.com/tsaitang404/CASM/raw/main/tools/ncrack-services -O /usr/local/share/ncrack/ncrack-services
 fi
 
 mkdir -p /data/GeoLite2
 if [ ! -f /data/GeoLite2/GeoLite2-ASN.mmdb ]; then
   echo "download GeoLite2-ASN.mmdb ..."
-  wget -c https://github.com/tsaitang404/CASM/raw/master/tools/GeoLite2-ASN.mmdb -O /data/GeoLite2/GeoLite2-ASN.mmdb
+  wget -c https://github.com/tsaitang404/CASM/raw/main/tools/GeoLite2-ASN.mmdb -O /data/GeoLite2/GeoLite2-ASN.mmdb
 fi
 
 if [ ! -f /data/GeoLite2/GeoLite2-City.mmdb ]; then
   echo "download GeoLite2-City.mmdb ..."
-  wget -c https://github.com/tsaitang404/CASM/raw/master/tools/GeoLite2-City.mmdb -O /data/GeoLite2/GeoLite2-City.mmdb
+  wget -c https://github.com/tsaitang404/CASM/raw/main/tools/GeoLite2-City.mmdb -O /data/GeoLite2/GeoLite2-City.mmdb
 fi
 
 cd /opt/CASM
@@ -176,13 +176,13 @@ if [ ! -f rabbitmq_user ]; then
   rabbitmqctl add_user casm casmpassword
   rabbitmqctl add_vhost casmv2host
   rabbitmqctl set_user_tags casm casmtag
-  rabbitmqctl set_permissions -p casmv2host arl ".*" ".*" ".*"
+  rabbitmqctl set_permissions -p casmv2host casm ".*" ".*" ".*"
   echo "init casm user"
   mongo 127.0.0.1:27017/casm docker/mongo-init.js
   touch rabbitmq_user
 fi
 
-echo "install arl requirements ..."
+echo "install casm requirements ..."
 pip3.6 install -r requirements.txt
 if [ ! -f app/config.yaml ]; then
   echo "create config.yaml"
