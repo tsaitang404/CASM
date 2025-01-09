@@ -4,7 +4,7 @@ from app.config import Config
 from . import gen_md5, random_choices
 from .conn import conn_db
 
-salt = 'arlsalt!@#'
+salt = 'casmsalt!@#'
 
 def user_login(username = None, password = None):
     if not username or not password:
@@ -30,7 +30,7 @@ def user_login_header():
         return True
 
     item = {
-        "username": "ARL-API",
+        "username": "CASM-API",
         "token": Config.API_KEY,
         "type": "api"
     }
