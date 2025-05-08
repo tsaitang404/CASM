@@ -4720,7 +4720,7 @@ a.ant-btn-sm {
 }
 
 .ant-carousel .slick-prev:before {
-    content: "←"
+    content: "â†"
 }
 
 .ant-carousel .slick-next {
@@ -4728,7 +4728,7 @@ a.ant-btn-sm {
 }
 
 .ant-carousel .slick-next:before {
-    content: "→"
+    content: "â†’"
 }
 
 .ant-carousel .slick-dots {
