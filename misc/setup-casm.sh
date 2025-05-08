@@ -181,10 +181,10 @@ cd /opt/CASM
 # 初始化mq、mongo
 if [ ! -f rabbitmq_user ]; then
   echo "add rabbitmq user"
-  rabbitmqctl add_user casm casmpassword
-  rabbitmqctl add_vhost casmv2host
+  rabbitmqctl add_user casm casm@RabbitMQ
+  rabbitmqctl add_vhost casm
   rabbitmqctl set_user_tags casm casmtag
-  rabbitmqctl set_permissions -p casmv2host casm ".*" ".*" ".*"
+  rabbitmqctl set_permissions -p casm casm ".*" ".*" ".*"
   echo "init casm user"
   mongo 127.0.0.1:27017/casm docker/mongo-init.js
   touch rabbitmq_user
