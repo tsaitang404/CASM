@@ -77,7 +77,15 @@ class ChangePass(Resource):
             "code": 200,
             "data": {}
         }
-        token = request.headers.get("Token")
+        # 获取当前登录的用户名
+        user_info = utils.user_login_header()
+        if not user_info:
+            ret["code"] = 401
+            ret["message"] = "用户未登录"
+            return ret
+            
+        username = user_info.get("username")
+        token = user_info.get("token")
 
         if args["new_password"] != args["check_password"]:
             ret["code"] = 301
@@ -89,7 +97,9 @@ class ChangePass(Resource):
             ret["message"] = "新密码不能为空"
             return ret
 
-        if utils.change_pass(token, args["old_password"], args["new_password"]):
+        # 使用用户名和旧密码验证用户身份
+        if utils.change_pass(username, args["old_password"], args["new_password"]):
+            # 修改成功后注销用户
             utils.user_logout(token)
         else:
             ret["message"] = "旧密码错误"

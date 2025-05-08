@@ -59,11 +59,14 @@ def user_logout(token):
         conn_db('user').update_one({"token": token}, {"$set": {"token": None}})
 
 
-def change_pass(token, old_password, new_password):
-    query = {"token": token, "password": gen_md5(salt + old_password)}
+def change_pass(username, old_password, new_password):
+    """
+    修改用户密码，使用用户名确认唯一性，使用旧密码验证合法性
+    """
+    query = {"username": username, "password": gen_md5(salt + old_password)}
     data = conn_db('user').find_one(query)
     if data:
-        conn_db('user').update_one({"token": token}, {"$set": {"password": gen_md5(salt + new_password)}})
+        conn_db('user').update_one({"username": username}, {"$set": {"password": gen_md5(salt + new_password), "token": None}})
         return True
     else:
         return False
