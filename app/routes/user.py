@@ -31,6 +31,17 @@ class Login(Resource):
         return build_data(utils.user_login(**args))
 
 
+@ns.route('/info')
+class UserInfo(Resource):
+    def get(self):
+        """
+        验证用户 token 有效性并返回用户信息
+        """
+        user_info = utils.user_login_header()
+        if user_info:
+            return build_data(user_info)
+        else:
+            return build_data(None)
 
 
 @ns.route('/logout')
