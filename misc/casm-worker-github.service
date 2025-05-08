@@ -1,0 +1,13 @@
+[Unit]
+Description=CASM Worker GitHub Service
+After=network.target
+
+[Service]
+User=root
+Group=root
+WorkingDirectory=/opt/CASM
+ExecStart=/usr/local/bin/celery -A app.celerytask.celery worker -l info -Q casmgithub -n casmgithub -c 3 -O fair -f casm_worker.log
+
+[Install]
+WantedBy=multi-user.target
+
