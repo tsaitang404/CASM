@@ -468,7 +468,92 @@ Header: {
   ```
 
 #### 5.2 资产站点 (/api/asset_site)
-相关资产站点接口...
+
+##### 5.2.1 站点查询
+- 请求方法: GET
+- 路径: /api/asset_site/
+- 描述: 资产站点信息查询
+- 实现位置: `/app/routes/assetSite.py`
+- 查询参数:
+  ```json
+  {
+    "site": "站点URL",
+    "title": "站点标题",
+    "status": "站点状态码",
+    "tag": "站点标签",
+    "scope_id": "资产组范围ID",
+    "update_date__dgt": "更新时间大于",
+    "update_date__dlt": "更新时间小于",
+    "page": "页码",
+    "size": "每页数量"
+  }
+  ```
+
+##### 5.2.2 站点状态监控
+站点状态监控机制包含以下功能：
+1. 状态码变化监控：监控站点HTTP状态码的变化
+2. 标题变化监控：监控站点标题的变化
+3. 新站点发现：监控资产组中域名对应的新站点
+
+监控触发条件：
+- 状态码变为200时触发告警
+- 站点标题发生变化且新标题不为空时触发告警
+- 发现新的有效站点时触发告警（状态码非400、404、501、502、504等）
+
+告警通知方式：
+- 邮件通知：包含详细的变化信息，如状态码变化、标题变化等
+- 钉钉通知：采用markdown格式推送简要变化信息
+
+监控排除规则：
+- 黑名单站点自动排除
+- 无效状态码(400、404、501、502、504等)自动排除
+- 标题为空的变化自动排除
+
+##### 5.2.3 站点标签管理
+- 添加标签
+  - 请求方法: POST
+  - 路径: /api/asset_site/add_tag/
+  - 描述: 为资产站点添加标签
+  - 请求参数:
+    ```json
+    {
+      "tag": "标签名称",
+      "_id": "站点ID"
+    }
+    ```
+
+- 删除标签
+  - 请求方法: POST
+  - 路径: /api/asset_site/delete_tag/
+  - 描述: 删除资产站点的标签
+  - 请求参数:
+    ```json
+    {
+      "tag": "要删除的标签名称",
+      "_id": "站点ID"
+    }
+    ```
+
+##### 5.2.4 站点导出
+- 请求方法: GET
+- 路径: /api/asset_site/export/
+- 描述: 导出资产站点信息
+
+##### 5.2.5 删除站点
+- 请求方法: POST
+- 路径: /api/asset_site/delete/
+- 描述: 删除资产组中的站点
+- 请求参数:
+  ```json
+  {
+    "_id": ["站点ID列表"]
+  }
+  ```
+
+##### 5.2.6 保存站点到结果集
+- 请求方法: GET
+- 路径: /api/asset_site/save_result_set/
+- 描述: 将资产站点保存到结果集中
 
 ### 6. 文件泄露管理 (/api/fileleak)
 
@@ -1041,6 +1126,66 @@ Header: {
 - RUNNING: 正在运行
 - STOP: 已停止
 - ERROR: 运行出错
+
+### 20. 系统状态监控 (/api/status)
+
+#### 20.1 系统状态查询
+- 请求方法: GET
+- 路径: /api/status/
+- 描述: 获取系统核心组件运行状态
+- 实现位置: `/app/routes/status.py`
+- 响应格式:
+  ```json
+  {
+    "code": 200,
+    "message": "Success",
+    "data": {
+      "mongodb": {
+        "status": "running|error",
+        "message": "MongoDB连接状态描述"
+      },
+      "rabbitmq": {
+        "status": "running|error",
+        "message": "RabbitMQ连接状态描述"
+      },
+      "workers": {
+        "casm-worker": {
+          "status": "running|stopped|error",
+          "message": "Worker服务状态描述"
+        },
+        "casm-worker-github": {
+          "status": "running|stopped|error",
+          "message": "GitHub Worker服务状态描述"
+        },
+        "casm-scheduler": {
+          "status": "running|stopped|error",
+          "message": "调度器服务状态描述"
+        }
+      }
+    }
+  }
+  ```
+
+#### 状态说明
+系统状态监控包含以下组件：
+
+1. MongoDB数据库
+   - running: 数据库连接正常
+   - error: 数据库连接失败
+
+2. RabbitMQ消息队列
+   - running: 消息队列连接正常
+   - error: 消息队列连接失败
+
+3. 系统服务
+   - running: 服务运行正常
+   - stopped: 服务未运行
+   - error: 服务状态检查失败
+
+监控的系统服务包括：
+- casm-worker: 主要工作进程
+- casm-worker-github: GitHub信息收集工作进程
+- casm-scheduler: 调度器服务
 
 ## 响应格式
 所有接口统一返回格式：
