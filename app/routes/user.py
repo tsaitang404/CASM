@@ -2,8 +2,8 @@ from flask import request
 from flask_restx import fields, Namespace
 from app.utils import get_logger
 from app import utils
-from . import  Resource
-from app import modules
+from . import Resource
+from app.modules import ErrorMsg
 
 ns = Namespace('user', description="管理员登录认证")
 
@@ -72,11 +72,7 @@ class ChangePass(Resource):
         密码修改
         """
         args = self.parse_args(change_pass_fields)
-        ret = {
-            "message": "success",
-            "code": 200,
-            "data": {}
-        }
+        ret = ErrorMsg.Success.copy()
         # 获取当前登录的用户名
         user_info = utils.user_login_header()
         if not user_info:
@@ -109,17 +105,11 @@ class ChangePass(Resource):
 
 
 def build_data(data):
-    ret = {
-        "message": "success",
-        "code": 200,
-        "data": {}
-    }
-
+    ret = ErrorMsg.Success.copy()
     if data:
         ret["data"] = data
     else:
         ret["code"] = 401
-
     return ret
 
 

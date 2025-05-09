@@ -52,9 +52,9 @@ api.add_namespace(routes.task_schedule_ns)
 api.add_namespace(routes.nuclei_result_ns)
 api.add_namespace(routes.wih_ns)
 api.add_namespace(routes.asset_wih_ns)
-
+api.add_namespace(routes.status_ns)  # 添加系统状态检查路由
 
 casm_update()
 
 if __name__ == '__main__':
-    casm_app.run(debug=True, port=5018, host="0.0.0.0")
+    casm_app.run(debug=True, port=5018, host="127.0.0.1")

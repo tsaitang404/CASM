@@ -160,10 +160,16 @@ def gen_filename(site):
 
 def build_ret(error, data):
     if isinstance(error, str):
-        error = {
-            "message": error,
-            "code": 999,
-        }
+        if error.lower() == "success":
+            error = {
+                "message": "success",
+                "code": 200,
+            }
+        else:
+            error = {
+                "message": error,
+                "code": 999,
+            }
 
     ret = {}
     ret.update(error)
