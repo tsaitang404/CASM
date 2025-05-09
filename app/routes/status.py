@@ -47,18 +47,22 @@ class Status(Resource):
     def _check_rabbitmq(self):
         """检查RabbitMQ连接状态"""
         try:
+            # 从配置中获取RabbitMQ连接URL
+            rabbitmq_url = Config.CELERY_BROKER_URL
+
             # 尝试连接RabbitMQ
-            credentials = pika.PlainCredentials('casm', 'casm@RabbitMQ')
-            parameters = pika.ConnectionParameters(
-                host='localhost',
-                virtual_host='casm',
-                credentials=credentials
-            )
+            parameters = pika.URLParameters(rabbitmq_url)
             connection = pika.BlockingConnection(parameters)
             connection.close()
             return {
                 "status": "running",
                 "message": "RabbitMQ连接正常"
+            }
+        except Exception as e:
+            logger.error(f"RabbitMQ连接失败: {str(e)}")
+            return {
+                "status": "error",
+                "message": f"RabbitMQ连接失败: {str(e)}"
             }
         except Exception as e:
             logger.error(f"RabbitMQ连接失败: {str(e)}")
