@@ -22,7 +22,8 @@ class Status(Resource):
         status = {
             "mongodb": self._check_mongodb(),
             "rabbitmq": self._check_rabbitmq(),
-            "workers": self._check_workers()
+            "workers": self._check_workers(),
+            "assets": self._get_assets_count()
         }
         
         return utils.build_ret("Success", status)
@@ -106,4 +107,22 @@ class Status(Resource):
             return {
                 "status": "error", 
                 "message": f"检查服务状态失败: {str(e)}"
+            }
+
+    def _get_assets_count(self):
+        """获取各类资产数量统计"""
+        try:
+            conn = ConnMongo().conn
+            return {
+                "domains": conn.casm.domain.count_documents({}),
+                "ips": conn.casm.ip.count_documents({}),
+                "sites": conn.casm.site.count_documents({}),
+                "services": conn.casm.service.count_documents({}),
+                "vulnerabilities": conn.casm.vuln.count_documents({}),
+                "certificates": conn.casm.cert.count_documents({})
+            }
+        except Exception as e:
+            logger.error(f"获取资产统计失败: {str(e)}")
+            return {
+                "error": f"获取资产统计失败: {str(e)}"
             }
