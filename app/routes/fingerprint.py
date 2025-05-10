@@ -185,3 +185,47 @@ class UploadFinger(Resource):
             return utils.build_ret(ErrorMsg.Error, {'msg': str(e)})
 
 
+update_fingerprint_fields = ns.model('updateFingerSite', {
+    'name': fields.String(required=False, description="名称"),
+    'human_rule': fields.String(required=False, description="规则"),
+})
+
+@ns.route('/<string:_id>/')
+class UpdateFinger(Resource):
+    @auth
+    @ns.expect(update_fingerprint_fields)
+    def put(self, _id):
+        """
+        更新指纹信息
+        """
+        args = self.parse_args(update_fingerprint_fields)
+        update_data = {}
+        if 'name' in args and args['name']:
+            update_data['name'] = args['name']
+        if 'human_rule' in args and args['human_rule']:
+            human_rule = args['human_rule']
+            # 检查规则是否已存在（排除自身）
+            exist = utils.conn_db('fingerprint').find_one({
+                "human_rule": human_rule,
+                "_id": {"$ne": ObjectId(_id)}
+            })
+            if exist:
+                return utils.build_ret(ErrorMsg.RuleAlreadyExists, {"rule": human_rule})
+            flag, err = check_expression_with_error(human_rule)
+            if not flag:
+                return utils.build_ret(ErrorMsg.RuleInvalid, {"error": str(err)})
+            update_data['human_rule'] = human_rule
+        if not update_data:
+            return utils.build_ret(ErrorMsg.Error, {"msg": "No fields to update"})
+        update_data['update_date'] = utils.curr_date_obj()
+        if 'update_date' in update_data and hasattr(update_data['update_date'], 'isoformat'):
+            update_data['update_date'] = update_data['update_date'].isoformat()
+        result = utils.conn_db('fingerprint').update_one(
+            {"_id": ObjectId(_id)},
+            {"$set": update_data}
+        )
+        if result.matched_count == 0:
+            return utils.build_ret(ErrorMsg.NotFound, {"_id": _id})
+        return utils.build_ret(ErrorMsg.Success, {"_id": _id, "updated": update_data})
+
+
