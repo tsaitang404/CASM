@@ -83,7 +83,8 @@ def build_task_data(task_name, task_target, task_type, task_tag, options):
         'options': options_cp,
         "end_time": "-",
         "service": [],
-        "celery_id": ""
+        "celery_id": "",
+        "create_time": utils.curr_date()
     }
 
     # 单独对风险巡航任务处理
@@ -202,7 +203,8 @@ def submit_add_asset_site_task(task_name: str, target: list, options: dict) -> d
         "end_time": "-",
         "service": [],
         "cruising_target": target,
-        "celery_id": ""
+        "celery_id": "",
+        "create_time": utils.curr_date()
     }
     task_data = submit_task(task_data)
     return task_data

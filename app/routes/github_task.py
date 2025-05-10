@@ -62,6 +62,7 @@ class GithubTask(Resource):
             "start_time": "-",
             "end_time": "-",
             "status": TaskStatus.WAITING,
+            "create_time": utils.curr_date()
         }
 
         task_data = submit_github_task(task_data=task_data,

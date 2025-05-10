@@ -97,7 +97,8 @@ class AddFofaTask(Resource):
             "status": "waiting",
             "options": task_options,
             "type": "fofa",
-            "fofa_ip": ip_results
+            "fofa_ip": ip_results,
+            "create_time": utils.curr_date()
         }
         task_data = submit_fofa_task(task_data)
 

@@ -13,38 +13,30 @@ action_map_collection = {
 
 
 def submit_github_task(task_data, action, delay_flag=True):
-    if action not in action_map_collection:
-        return "Not in action_map"
+    task_data["create_time"] = utils.curr_date()
+    utils.conn_db(action_map_collection[action]).insert_one(task_data)
+    task_id = str(task_data.pop("_id"))
+    task_data["task_id"] = task_id
 
-    collection = action_map_collection[action]
     task_options = {
         "celery_action": action,
         "data": task_data
     }
-    keyword = task_data["keyword"]
-    task_data["celery_id"] = ""
-    utils.conn_db(collection).insert_one(task_data)
-    task_id = str(task_data.pop("_id"))
-    task_data["task_id"] = task_id
 
     try:
         if delay_flag:
             celery_id = celerytask.github.delay(options=task_options)
-        else:
-            celery_id = "fake_celery_id"
-            celerytask.github(options=task_options)
+            logger.info("task_id:{} celery_id:{}".format(task_id, celery_id))
 
-        logger.info("target:{} task_id:{} celery_id:{}".format(keyword, task_id, celery_id))
-        values = {"$set": {"celery_id": str(celery_id)}}
-        task_data["celery_id"] = str(celery_id)
-        utils.conn_db(collection).update_one({"_id": ObjectId(task_id)}, values)
-
+            values = {"$set": {"celery_id": str(celery_id)}}
+            task_data["celery_id"] = str(celery_id)
+            utils.conn_db(action_map_collection[action]).update_one({"_id": ObjectId(task_id)}, values)
+            
+        return task_data
     except Exception as e:
-        utils.conn_db(collection).delete_one({"_id": ObjectId(task_id)})
-        logger.info("Github 任务下发失败 {}".format(keyword))
-        return str(e)
-
-    return task_data
+        utils.conn_db(action_map_collection[action]).delete_one({"_id": ObjectId(task_id)})
+        logger.info("submit_github_task failed {}".format(task_id))
+        raise e
 
 
 # Github 监控任务下发
