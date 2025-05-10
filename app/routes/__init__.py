@@ -123,21 +123,26 @@ class Resource(Resource):
         return items
 
     def build_data(self, args=None, collection=None):
+        if args is None:
+            args = {}
 
         default_field = self.get_default_field(args)
-        page = default_field.get("page", 1)
+        page = default_field.get("page", 1) 
         size = default_field.get("size", 10)
         orderby_list = default_field.get('order', [("_id", -1)])
-        query = self.build_db_query(args)
+        
+        query = self.build_db_query(args) if args else {}
+        
         result = conn(collection).find(query).sort(orderby_list).skip(size * (page - 1)).limit(size)
-        count = conn(collection).count(query)
+        count = conn(collection).count_documents(query)
         items = self.build_return_items(result)
 
-        special_keys = ["_id", "save_date", "update_date"]
+        # 处理特殊字段显示
+        special_keys = ["_id", "save_date", "update_date"] 
         for key in query:
             if key in special_keys:
                 query[key] = str(query[key])
-
+            
             raw_value = query[key]
             if isinstance(raw_value, dict):
                 if "$not" in raw_value:
@@ -145,13 +150,15 @@ class Resource(Resource):
                         raw_value["$not"] = raw_value["$not"].pattern
 
         data = {
+            "code": 200,
+            "message": "success",
             "page": page,
-            "size": size,
+            "size": size, 
             "total": count,
             "items": items,
-            "query": query,
-            "code": 200
+            "query": query
         }
+
         return data
 
     '''
