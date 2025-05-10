@@ -3,6 +3,7 @@ from pyquery import PyQuery as pq
 import time
 from urllib.parse import quote, urljoin, urlparse
 from app import utils
+from app.config import Config
 
 logger = utils.get_logger()
 
@@ -81,51 +82,116 @@ class BaiduSearch(object):
 class BingSearch(object):
     def __init__(self, keyword=None, page_num=6):
         self.search_url = "https://cn.bing.com/search?q={keyword}&qs=n&form=QBRE&sp=-1&first={page}"
+        # 增加多种匹配模式以适应不同的Bing响应格式
         self.num_pattern = re.compile(r'<span class="sb_count">([^<]+)</span>')
+        self.num_pattern_alt1 = re.compile(r'<span[^>]*>([0-9,]+ 条结果)<\/span>')
+        self.num_pattern_alt2 = re.compile(r'([0-9,]+ 个结果)')
         self.pq_query = "#b_results > li h2 > a"
         self.keyword = keyword
         self.page_num = page_num
-        self.headers = {"Accept-Language": "zh-cn"}
-        self.default_interval = 3
+        # 增强请求头以更好地模拟真实浏览器
+        self.headers = {
+            "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
+            "Cache-Control": "max-age=0",
+            "Connection": "keep-alive"
+        }
+        self.default_interval = 5  # 增加间隔时间
         self.search_result_num = 0
         self.first_html = ""
+        self.retry_count = 3  # 添加重试计数
 
     def result_num(self):
         url = self.search_url.format(page=1, keyword=quote(self.keyword))
-        html = utils.http_req(url, headers=self.headers).text
-        self.first_html = html
-        result = re.findall(self.num_pattern, html)
-
-        if result:
-            # 第一种情况
-            result_num = re.findall(r"共 ([\d,]*) 条", result[0])
-            if result_num:
-                num = int("".join(result_num[0].split(",")))
-                self.search_result_num = num
-
-            # 第二种情况
-            else:
-                result_num_2 = re.findall(r" ([\d,]*) 个结果", result[0])
-                if result_num_2:
-                    num = int("".join(result_num_2[0].split(",")))
-                    self.search_result_num = num
-        else:
-            logger.warning("Unable to get bing search results， {}".format(self.keyword))
-            return 0
-
-        return self.search_result_num
+        
+        # 添加重试逻辑
+        for attempt in range(self.retry_count):
+            try:
+                # 使用HTTP代理(如果配置了)
+                if hasattr(Config, 'HTTP_PROXY') and Config.HTTP_PROXY:
+                    proxies = {"http": Config.HTTP_PROXY, "https": Config.HTTP_PROXY}
+                    html = utils.http_req(url, headers=self.headers, proxies=proxies).text
+                else:
+                    html = utils.http_req(url, headers=self.headers).text
+                
+                self.first_html = html
+                
+                # 尝试多种正则表达式匹配
+                result = re.findall(self.num_pattern, html)
+                
+                if result:
+                    # 第一种情况
+                    result_num = re.findall(r"共 ([\d,]*) 条", result[0])
+                    if result_num:
+                        num = int("".join(result_num[0].split(",")))
+                        self.search_result_num = num
+                        return num
+                    
+                    # 第二种情况
+                    result_num_2 = re.findall(r" ([\d,]*) 个结果", result[0])
+                    if result_num_2:
+                        num = int("".join(result_num_2[0].split(",")))
+                        self.search_result_num = num
+                        return num
+                
+                # 尝试替代的正则表达式模式
+                alt_result = re.findall(self.num_pattern_alt1, html)
+                if alt_result:
+                    num_str = re.sub(r'[^\d]', '', alt_result[0])
+                    if num_str:
+                        self.search_result_num = int(num_str)
+                        return self.search_result_num
+                
+                alt_result2 = re.findall(self.num_pattern_alt2, html)
+                if alt_result2:
+                    num_str = re.sub(r'[^\d]', '', alt_result2[0])
+                    if num_str:
+                        self.search_result_num = int(num_str)
+                        return self.search_result_num
+                
+                # 如果所有正则匹配都失败，但我们至少找到了一些结果链接，返回一个估计值
+                if "搜索</title>" in html:
+                    dom = pq(html)
+                    result_items = list(dom(self.pq_query).items())
+                    if result_items:
+                        self.search_result_num = len(result_items) * 10  # 估计值
+                        logger.info(f"估计 Bing 搜索结果数量: {self.search_result_num}")
+                        return self.search_result_num
+                
+                # 如果是最后一次尝试，记录警告
+                if attempt == self.retry_count - 1:
+                    logger.warning(f"Unable to get bing search results for {self.keyword}, tried {attempt+1} times")
+                    # 保存HTML以供调试
+                    with open(f'/tmp/bing_search_debug_{int(time.time())}.html', 'w') as f:
+                        f.write(html)
+                    return 0
+                
+                # 如果不是最后一次尝试，等待后重试
+                time.sleep(2 * (attempt + 1))
+            
+            except Exception as e:
+                if attempt == self.retry_count - 1:
+                    logger.exception(f"Bing search error: {str(e)}")
+                    return 0
+                time.sleep(2 * (attempt + 1))
+        
+        return 0
 
     def match_urls(self, html):
-        if "搜索</title>" not in html:
-            raise Exception("获取Bing结果异常")
-
-        dom = pq(html)
-        result_items = dom(self.pq_query).items()
-        urls_result = [item.attr("href") for item in result_items]
-        urls = set()
-        for u in urls_result:
-            urls.add(u)
-        return list(urls)
+        try:
+            dom = pq(html)
+            result_items = dom(self.pq_query).items()
+            urls_result = [item.attr("href") for item in result_items if item.attr("href")]
+            urls = set()
+            for u in urls_result:
+                if not u:
+                    continue
+                urls.add(u)
+            return list(urls)
+        except Exception as e:
+            logger.warning(f"解析Bing搜索结果出错: {str(e)}")
+            return []
 
     def run(self):
         self.result_num()
@@ -144,10 +210,20 @@ class BingSearch(object):
             else:
                 time.sleep(self.default_interval)
                 url = self.search_url.format(page=(page - 1) * 10, keyword=quote(self.keyword))
-                html = utils.http_req(url, headers=self.headers).text
-                _urls = self.match_urls(html)
-                logger.info("bing search url {}, result {}".format(url, len(_urls)))
-                urls.extend(_urls)
+                try:
+                    # 使用HTTP代理(如果配置了)
+                    if hasattr(Config, 'HTTP_PROXY') and Config.HTTP_PROXY:
+                        proxies = {"http": Config.HTTP_PROXY, "https": Config.HTTP_PROXY}
+                        html = utils.http_req(url, headers=self.headers, proxies=proxies).text
+                    else:
+                        html = utils.http_req(url, headers=self.headers).text
+                    
+                    _urls = self.match_urls(html)
+                    logger.info("bing search url {}, result {}".format(url, len(_urls)))
+                    urls.extend(_urls)
+                except Exception as e:
+                    logger.warning(f"无法获取Bing搜索结果页面 {page}: {str(e)}")
+        
         return urls
 
 

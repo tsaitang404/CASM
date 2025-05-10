@@ -52,7 +52,8 @@ class FetchSite(BaseThread):
         if max_redirect <= 0:
             return
 
-        _, hostname, _ = urlparse(site).hostname
+        # 修复解析问题，正确获取hostname
+        hostname = urlparse(site).hostname
 
         conn = utils.http_req(site, timeout=self.http_timeout)
         item = {
