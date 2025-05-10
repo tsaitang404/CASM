@@ -22,6 +22,7 @@ class Status(Resource):
         status = {
             "mongodb": self._check_mongodb(),
             "rabbitmq": self._check_rabbitmq(),
+            "scheduler": self._check_scheduler(),
             "workers": self._check_workers(),
             "assets": self._get_assets_count()
         }
@@ -74,12 +75,66 @@ class Status(Resource):
 
     def _check_workers(self):
         """检查Worker服务状态"""
-        workers = {
-            "casm-worker": self._check_service_status("casm-worker"),
-            "casm-worker-github": self._check_service_status("casm-worker-github"),
-            "casm-scheduler": self._check_service_status("casm-scheduler")
-        }
-        return workers
+        try:
+            conn = ConnMongo().conn
+            
+            # 获取所有worker节点
+            workers = list(conn.casm.workers.find({}, {'_id': 0}))
+            active_workers = [w for w in workers if w['status'] == 'running']
+            
+            # 获取Celery Worker状态
+            worker_stats = {
+                "total": len(workers),
+                "active": len(active_workers),
+                "nodes": []
+            }
+            
+            for worker in workers:
+                node_info = {
+                    "name": worker['name'],
+                    "status": worker['status'],
+                    "tasks_processed": worker.get('tasks_processed', 0),
+                    "uptime": worker.get('uptime', '0h')
+                }
+                if worker['status'] != 'running':
+                    node_info['error'] = worker.get('error', 'Unknown error')
+                    
+                worker_stats['nodes'].append(node_info)
+                
+            return worker_stats
+            
+        except Exception as e:
+            logger.error(f"获取Worker状态失败: {str(e)}")
+            return {
+                "status": "error",
+                "message": f"获取Worker状态失败: {str(e)}"
+            }
+
+    def _check_scheduler(self):
+        """检查调度器状态"""
+        try:
+            conn = ConnMongo().conn
+            scheduler = conn.casm.scheduler.find_one({}, {'_id': 0})
+            
+            if not scheduler:
+                return {
+                    "status": "stopped",
+                    "message": "调度器未运行"
+                }
+                
+            return {
+                "status": scheduler['status'],
+                "uptime": scheduler.get('uptime', '0h'),
+                "tasks_total": scheduler.get('tasks_total', 0),
+                "tasks_active": scheduler.get('tasks_active', 0)
+            }
+            
+        except Exception as e:
+            logger.error(f"获取调度器状态失败: {str(e)}")
+            return {
+                "status": "error",
+                "message": f"获取调度器状态失败: {str(e)}"
+            }
 
     def _check_service_status(self, service_name):
         """检查系统服务状态"""
