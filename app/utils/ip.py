@@ -30,6 +30,10 @@ def not_in_black_ips(target):
     from . import get_logger
     logger = get_logger()
     try:
+        # 检查BLACK_IPS是否存在并且是可迭代的
+        if not Config.BLACK_IPS or not hasattr(Config.BLACK_IPS, '__iter__'):
+            return True
+            
         for ip in Config.BLACK_IPS:
             if "-" in target:
                 target = target.split("-")[0]
