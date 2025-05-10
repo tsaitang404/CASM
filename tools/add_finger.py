@@ -29,7 +29,7 @@ def update_data(token):
     # 获取API地址
     api_host = config.get('API', {}).get('HOST', '127.0.0.1')
     api_port = config.get('API', {}).get('PORT', 5003)
-    api_ssl = config.get('API', {}).get('SSL', True)
+    api_ssl = config.get('API', {}).get('SSL', False)
     
     # 构建API URL
     protocol = 'https' if api_ssl else 'http'
