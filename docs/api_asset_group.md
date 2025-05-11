@@ -15,11 +15,18 @@
 
 ## 通用字段说明
 
-| 字段名 | 类型   | 是否必填 | 说明           |
-| ------ | ------ | -------- | -------------- |
-| name   | string | 是       | 资产分组名称   |
-| desc   | string | 否       | 资产分组描述   |
-| _id    | string | 否       | 资产分组唯一ID |
+| 字段名           | 类型     | 是否必填 | 说明                                 |
+| ---------------- | -------- | -------- | ------------------------------------ |
+| _id              | string   | 否       | 资产分组唯一ID                       |
+| name             | string   | 是       | 资产分组名称                         |
+| desc             | string   | 否       | 资产分组描述                         |
+| scope_type       | string   | 否       | 分组类型，"domain" 或 "ip"         |
+| scope            | string   | 否       | 范围字符串，逗号分隔                 |
+| scope_array      | string[] | 否       | 范围数组                             |
+| black_scope      | string   | 否       | 黑名单范围字符串                     |
+| black_scope_array| string[] | 否       | 黑名单范围数组                       |
+| create_time      | string   | 否       | 创建时间，ISO8601格式                |
+| update_time      | string   | 否       | 最后更新时间，ISO8601格式            |
 
 ## 通用响应格式
 
@@ -52,12 +59,13 @@ GET /api/asset_scope/
 
 **查询参数**：
 
-| 参数名 | 类型   | 是否必填 | 说明                     |
-| ------ | ------ | -------- | ------------------------ |
-| name   | string | 否       | 按分组名称模糊筛选       |
-| page   | number | 否       | 页码，默认为1            |
-| size   | number | 否       | 每页记录数，默认为20     |
-| id     | string | 否       | 查询特定ID的分组，精确匹配 |
+| 参数名   | 类型   | 是否必填 | 说明                     |
+| -------- | ------ | -------- | ------------------------ |
+| name     | string | 否       | 按分组名称模糊筛选       |
+| page     | number | 否       | 页码，默认为1            |
+| size     | number | 否       | 每页记录数，默认为20     |
+| id       | string | 否       | 查询特定ID的分组，精确匹配 |
+| scope_type | string | 否     | 分组类型筛选             |
 
 **响应示例**：
 ```json
@@ -107,9 +115,22 @@ POST /api/asset_scope/
 ```json
 {
   "name": "核心业务系统",
-  "desc": "公司核心业务系统资产分组"
+  "desc": "公司核心业务系统资产分组",
+  "scope_type": "domain",
+  "scope": "example.com,example.org",
+  "black_scope": "test.com"
 }
 ```
+
+**参数说明**：
+
+| 参数名      | 类型   | 是否必填 | 说明           |
+| ----------- | ------ | -------- | -------------- |
+| name        | string | 是       | 资产分组名称   |
+| desc        | string | 否       | 资产分组描述   |
+| scope_type  | string | 否       | 分组类型，"domain" 或 "ip" |
+| scope       | string | 否       | 范围字符串，逗号分隔 |
+| black_scope | string | 否       | 黑名单范围字符串 |
 
 **响应示例**：
 ```json
@@ -218,9 +239,22 @@ PUT /api/asset_scope/{id}
 ```json
 {
   "name": "更新后的分组名称",
-  "desc": "更新后的分组描述"
+  "desc": "更新后的分组描述",
+  "scope_type": "ip",
+  "scope": "192.168.1.0/24,192.168.2.0/24",
+  "black_scope": "10.0.0.0/8"
 }
 ```
+
+**参数说明**：
+
+| 参数名      | 类型   | 是否必填 | 说明           |
+| ----------- | ------ | -------- | -------------- |
+| name        | string | 否       | 新分组名称     |
+| desc        | string | 否       | 新分组描述     |
+| scope_type  | string | 否       | 分组类型，"domain" 或 "ip" |
+| scope       | string | 否       | 范围字符串，逗号分隔 |
+| black_scope | string | 否       | 黑名单范围字符串 |
 
 **响应示例**：
 ```json
@@ -331,3 +365,11 @@ POST /api/asset_scope/edit/
     "id": "不存在的分组ID"
   }
 }
+```
+
+### 资产组范围相关（如添加/删除范围）
+
+| 参数名     | 类型     | 是否必填 | 说明                   |
+| ---------- | -------- | -------- | ---------------------- |
+| scope_id   | string   | 是       | 资产分组ID             |
+| scope      | string   | 是       | 要添加/删除的范围      |

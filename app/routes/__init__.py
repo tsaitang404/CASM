@@ -336,3 +336,4 @@ from .nuclei_result import ns as nuclei_result_ns
 from .wih import ns as wih_ns
 from .assetWih import ns as asset_wih_ns
 from .status import ns as status_ns  # 导入状态检查命名空间
+from .celery_task_api import ns as celery_task_api_ns  # 导入Celery任务执行与管理API命名空间

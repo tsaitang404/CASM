@@ -6,7 +6,7 @@
 
 | 接口功能           | HTTP方法 | 请求路径                       | 说明                       |
 | ------------------ | -------- | ------------------------------ | -------------------------- |
-| 站点状态监控       | GET      | /api/asset_site/monitor/       | 查询站点监控状态           |
+| 查询站点资产       | GET      | /api/asset_site/               | 查询站点资产信息           |
 | 添加标签           | POST     | /api/asset_site/add_tag/       | 为站点资产添加标签         |
 | 删除标签           | POST     | /api/asset_site/delete_tag/    | 删除站点资产的标签         |
 | 删除站点           | DELETE   | /api/asset_site/{id}           | 删除特定站点(REST风格)     |
@@ -48,11 +48,11 @@
 
 ## 详细API说明
 
-### 1. 站点状态监控
+### 1. 查询站点资产
 
 **请求方法与地址**：
 ```
-GET /api/asset_site/monitor/
+GET /api/asset_site/
 ```
 
 **查询参数**：
@@ -89,7 +89,7 @@ GET /api/asset_site/monitor/
         "last_check_time": "2023-05-11T08:30:00.000Z",
         "response_time": 105,
         "screenshot_path": "/screenshots/example.com.png"
-      },
+      }
       // ...更多站点
     ]
   }
@@ -355,3 +355,4 @@ GET /api/asset_site/export/
     "error": "缺少必要参数name"
   }
 }
+```
