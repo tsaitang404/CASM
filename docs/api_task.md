@@ -62,19 +62,19 @@
 
 ```json
 {
-  "code": 0,       // 响应码，0表示成功，非0表示出错
-  "msg": "Success", // 响应消息
+  "code": 200,       // 响应码，200表示成功，非200表示出错
+  "message": "success", // 响应消息
   "data": {}       // 响应数据，格式因API而异
 }
 ```
 
 ### 通用响应字段说明
 
-| 字段名 | 类型   | 说明                                        |
-| ------ | ------ | ------------------------------------------- |
-| code   | number | 响应码，0表示成功，非0表示出错              |
-| msg    | string | 响应消息，成功时为"Success"，失败时为错误信息 |
-| data   | object | 响应数据，不同API返回的数据结构不同         |
+| 字段名   | 类型   | 说明                                        |
+| -------- | ------ | ------------------------------------------- |
+| code     | number | 响应码，200表示成功，非200表示出错          |
+| message  | string | 响应消息，成功时为"success"，失败时为错误信息 |
+| data     | object | 响应数据，不同API返回的数据结构不同         |
 
 ## 详细API说明
 
@@ -101,8 +101,8 @@ GET /api/task/
 **响应示例**：
 ```json
 {
-  "code": 0,
-  "msg": "Success",
+  "code": 200,
+  "message": "success",
   "data": {
     "total": 120,
     "page": 1,
@@ -242,8 +242,8 @@ GET /api/task/stop/{task_id}
 **响应示例**：
 ```json
 {
-  "code": 0,
-  "msg": "Success",
+  "code": 200,
+  "message": "success",
   "data": {
     "task_id": "60f8c2b2e13e4b1e8c8b4567"
   }

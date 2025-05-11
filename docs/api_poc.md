@@ -30,8 +30,8 @@
 
 ```json
 {
-  "code": 0,       // 响应码，0表示成功，非0表示出错
-  "msg": "Success", // 响应消息
+  "code": 200,       // 响应码，200表示成功，非200表示出错
+  "message": "success", // 响应消息
   "data": {}       // 响应数据，格式因API而异
 }
 ```
@@ -40,8 +40,8 @@
 
 | 字段名 | 类型   | 说明                                        |
 | ------ | ------ | ------------------------------------------- |
-| code   | number | 响应码，0表示成功，非0表示出错              |
-| msg    | string | 响应消息，成功时为"Success"，失败时为错误信息 |
+| code   | number | 响应码，200表示成功，非200表示出错          |
+| message| string | 响应消息，成功时为"success"，失败时为错误信息 |
 | data   | object | 响应数据，不同API返回的数据结构不同         |
 
 ## 详细API说明
@@ -60,8 +60,8 @@ GET /api/poc/
 **响应示例**：
 ```json
 {
-  "code": 0,
-  "msg": "Success",
+  "code": 200,
+  "message": "success",
   "data": {
     "total": 256,
     "page": 1,
@@ -123,8 +123,8 @@ GET /api/poc/sync/
 **响应示例**：
 ```json
 {
-  "code": 0,
-  "msg": "Success",
+  "code": 200,
+  "message": "success",
   "data": {
     "plugin_cnt": 256
   }
@@ -147,8 +147,8 @@ GET /api/poc/delete/
 **响应示例**：
 ```json
 {
-  "code": 0,
-  "msg": "Success",
+  "code": 200,
+  "message": "success",
   "data": {
     "delete_cnt": 256
   }
@@ -175,7 +175,7 @@ GET /api/poc/delete/
 | 字段名      | 类型   | 说明                     |
 | ----------- | ------ | ------------------------ |
 | code        | number | 错误码                   |
-| msg         | string | 错误类型描述             |
+| message     | string | 错误类型描述             |
 | data.error  | string | 详细错误信息（可选）     |
 
 ### 错误示例
@@ -183,7 +183,7 @@ GET /api/poc/delete/
 ```json
 {
   "code": 401,
-  "msg": "NotLogin",
+  "message": "NotLogin",
   "data": {}
 }
 ```
@@ -192,7 +192,7 @@ GET /api/poc/delete/
 ```json
 {
   "code": 500,
-  "msg": "Error",
+  "message": "Error",
   "data": {
     "error": "数据库连接失败"
   }

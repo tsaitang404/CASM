@@ -122,7 +122,7 @@ GET /api/stat_finger/
 | 字段名      | 类型   | 说明                     |
 | ----------- | ------ | ------------------------ |
 | code        | number | 错误码                   |
-| msg         | string | 错误类型描述             |
+| message     | string | 错误类型描述             |
 | data.error  | string | 详细错误信息（可选）     |
 
 ### 错误示例
@@ -130,7 +130,7 @@ GET /api/stat_finger/
 ```json
 {
   "code": 400,
-  "msg": "InvalidParameter",
+  "message": "InvalidParameter",
   "data": {
     "error": "数目必须为整数"
   }
@@ -141,7 +141,7 @@ GET /api/stat_finger/
 ```json
 {
   "code": 500,
-  "msg": "Error",
+  "message": "Error",
   "data": {
     "error": "数据库连接失败"
   }

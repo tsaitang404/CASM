@@ -27,8 +27,8 @@
 
 ```json
 {
-  "code": 0,       // 响应码，0表示成功，非0表示出错
-  "msg": "Success", // 响应消息
+  "code": 200,       // 响应码，200表示成功，非200表示出错
+  "message": "success", // 响应消息
   "data": {}       // 响应数据，格式因API而异
 }
 ```
@@ -37,8 +37,8 @@
 
 | 字段名 | 类型   | 说明                                        |
 | ------ | ------ | ------------------------------------------- |
-| code   | number | 响应码，0表示成功，非0表示出错              |
-| msg    | string | 响应消息，成功时为"Success"，失败时为错误信息 |
+| code   | number | 响应码，200表示成功，非200表示出错          |
+| message| string | 响应消息，成功时为"success"，失败时为错误信息 |
 | data   | object | 响应数据，不同API返回的数据结构不同         |
 
 ## 详细API说明
@@ -62,8 +62,8 @@ GET /api/fingerprint/
 **响应示例**：
 ```json
 {
-  "code": 0,
-  "msg": "Success",
+  "code": 200,
+  "message": "success",
   "data": {
     "total": 120,
     "page": 1,
@@ -73,7 +73,7 @@ GET /api/fingerprint/
         "_id": "60f8c2b2e13e4b1e8c8b4567",
         "name": "Apache",
         "human_rule": "body=\"test.gif\" || title=\"Apache\""
-      },
+      }
       // ...更多指纹
     ]
   }
@@ -110,8 +110,8 @@ POST /api/fingerprint/
 **响应示例**：
 ```json
 {
-  "code": 0,
-  "msg": "Success",
+  "code": 200,
+  "message": "success",
   "data": {
     "_id": "60f8c2b2e13e4b1e8c8b4567",
     "name": "Apache",
@@ -146,8 +146,8 @@ DELETE /api/fingerprint/{id}
 **响应示例**：
 ```json
 {
-  "code": 0,
-  "msg": "Success",
+  "code": 200,
+  "message": "success",
   "data": {
     "deleted": 1
   }
@@ -177,8 +177,8 @@ POST /api/fingerprint/delete/
 **响应示例**：
 ```json
 {
-  "code": 0,
-  "msg": "Success",
+  "code": 200,
+  "message": "success",
   "data": {
     "deleted": 2
   }
@@ -236,8 +236,8 @@ Content-Type: multipart/form-data
 **响应示例**：
 ```json
 {
-  "code": 0,
-  "msg": "Success",
+  "code": 200,
+  "message": "success",
   "data": {
     "imported": 10,
     "duplicated": 2,
@@ -271,7 +271,7 @@ Content-Type: multipart/form-data
 | 字段名      | 类型   | 说明                     |
 | ----------- | ------ | ------------------------ |
 | code        | number | 错误码                   |
-| msg         | string | 错误类型描述             |
+| message     | string | 错误类型描述             |
 | data.error  | string | 详细错误信息（可选）     |
 | data.rule   | string | 相关规则信息（可选）     |
 | data.id     | string | 相关资源ID（可选）       |
@@ -281,7 +281,7 @@ Content-Type: multipart/form-data
 ```json
 {
   "code": 1001,
-  "msg": "RuleAlreadyExists",
+  "message": "RuleAlreadyExists",
   "data": {
     "rule": "已存在的规则"
   }
@@ -292,7 +292,7 @@ Content-Type: multipart/form-data
 ```json
 {
   "code": 1002,
-  "msg": "RuleInvalid",
+  "message": "RuleInvalid",
   "data": {
     "error": "Error evaluating expression: ... exception: ..."
   }

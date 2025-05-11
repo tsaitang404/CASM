@@ -32,19 +32,19 @@
 
 ```json
 {
-  "code": 0,       // 响应码，0表示成功，非0表示出错
-  "msg": "Success", // 响应消息
+  "code": 200,       // 响应码，200表示成功，非200表示出错
+  "message": "success", // 响应消息
   "data": {}       // 响应数据，格式因API而异
 }
 ```
 
 ### 通用响应字段说明
 
-| 字段名 | 类型   | 说明                                        |
-| ------ | ------ | ------------------------------------------- |
-| code   | number | 响应码，0表示成功，非0表示出错              |
-| msg    | string | 响应消息，成功时为"Success"，失败时为错误信息 |
-| data   | object | 响应数据，不同API返回的数据结构不同         |
+| 字段名   | 类型   | 说明                                        |
+| -------- | ------ | ------------------------------------------- |
+| code     | number | 响应码，200表示成功，非200表示出错          |
+| message  | string | 响应消息，成功时为"success"，失败时为错误信息 |
+| data     | object | 响应数据，不同API返回的数据结构不同         |
 
 ## 详细API说明
 
@@ -72,8 +72,8 @@ GET /api/asset_site/monitor/
 **响应示例**：
 ```json
 {
-  "code": 0,
-  "msg": "Success",
+  "code": 200,
+  "message": "success",
   "data": {
     "total": 100,
     "page": 1,
@@ -132,8 +132,8 @@ POST /api/asset_site/add_tag/
 **响应示例**：
 ```json
 {
-  "code": 0,
-  "msg": "Success",
+  "code": 200,
+  "message": "success",
   "data": {
     "updated": 2,
     "tag": "重要"
@@ -166,8 +166,8 @@ POST /api/asset_site/delete_tag/
 **响应示例**：
 ```json
 {
-  "code": 0,
-  "msg": "Success",
+  "code": 200,
+  "message": "success",
   "data": {
     "updated": 2,
     "tag": "重要"
@@ -200,8 +200,8 @@ DELETE /api/asset_site/{id}
 **响应示例**：
 ```json
 {
-  "code": 0,
-  "msg": "Success",
+  "code": 200,
+  "message": "success",
   "data": {
     "deleted": 1
   }
@@ -231,8 +231,8 @@ POST /api/asset_site/delete/
 **响应示例**：
 ```json
 {
-  "code": 0,
-  "msg": "Success",
+  "code": 200,
+  "message": "success",
   "data": {
     "deleted": 2
   }
@@ -266,8 +266,8 @@ GET /api/asset_site/save_result_set/
 **响应示例**：
 ```json
 {
-  "code": 0,
-  "msg": "Success",
+  "code": 200,
+  "message": "success",
   "data": {
     "result_set_id": "60f8c2b2e13e4b1e8c8b4590",
     "name": "重要站点导出-20230511",
@@ -330,7 +330,7 @@ GET /api/asset_site/export/
 | 字段名      | 类型   | 说明                     |
 | ----------- | ------ | ------------------------ |
 | code        | number | 错误码                   |
-| msg         | string | 错误类型描述             |
+| message     | string | 错误类型描述             |
 | data.error  | string | 详细错误信息（可选）     |
 | data.id     | string | 相关资源ID（可选）       |
 
@@ -339,7 +339,7 @@ GET /api/asset_site/export/
 ```json
 {
   "code": 1003,
-  "msg": "NotFound",
+  "message": "NotFound",
   "data": {
     "id": "不存在的站点ID"
   }
@@ -350,7 +350,7 @@ GET /api/asset_site/export/
 ```json
 {
   "code": 1004,
-  "msg": "InvalidParameter",
+  "message": "InvalidParameter",
   "data": {
     "error": "缺少必要参数name"
   }

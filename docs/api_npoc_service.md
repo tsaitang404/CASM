@@ -130,7 +130,7 @@ GET /api/npoc_service/
 | 字段名      | 类型   | 说明                     |
 | ----------- | ------ | ------------------------ |
 | code        | number | 错误码                   |
-| msg         | string | 错误类型描述             |
+| message     | string | 错误类型描述             |
 | data.error  | string | 详细错误信息（可选）     |
 
 ### 错误示例
@@ -138,7 +138,7 @@ GET /api/npoc_service/
 ```json
 {
   "code": 400,
-  "msg": "InvalidParameter",
+  "message": "InvalidParameter",
   "data": {
     "error": "端口号格式错误"
   }
@@ -149,7 +149,7 @@ GET /api/npoc_service/
 ```json
 {
   "code": 500,
-  "msg": "Error",
+  "message": "Error",
   "data": {
     "error": "数据库连接失败"
   }

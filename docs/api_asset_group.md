@@ -27,19 +27,19 @@
 
 ```json
 {
-  "code": 0,       // 响应码，0表示成功，非0表示出错
-  "msg": "Success", // 响应消息
+  "code": 200,       // 响应码，200表示成功，非200表示出错
+  "message": "success", // 响应消息
   "data": {}       // 响应数据，格式因API而异
 }
 ```
 
 ### 通用响应字段说明
 
-| 字段名 | 类型   | 说明                                        |
-| ------ | ------ | ------------------------------------------- |
-| code   | number | 响应码，0表示成功，非0表示出错              |
-| msg    | string | 响应消息，成功时为"Success"，失败时为错误信息 |
-| data   | object | 响应数据，不同API返回的数据结构不同         |
+| 字段名   | 类型   | 说明                                        |
+| -------- | ------ | ------------------------------------------- |
+| code     | number | 响应码，200表示成功，非200表示出错          |
+| message  | string | 响应消息，成功时为"success"，失败时为错误信息 |
+| data     | object | 响应数据，不同API返回的数据结构不同         |
 
 ## 详细API说明
 
@@ -62,8 +62,8 @@ GET /api/asset_scope/
 **响应示例**：
 ```json
 {
-  "code": 0,
-  "msg": "Success",
+  "code": 200,
+  "message": "success",
   "data": {
     "total": 10,
     "page": 1,
@@ -114,8 +114,8 @@ POST /api/asset_scope/
 **响应示例**：
 ```json
 {
-  "code": 0,
-  "msg": "Success",
+  "code": 200,
+  "message": "success",
   "data": {
     "_id": "60f8c2b2e13e4b1e8c8b4567",
     "name": "核心业务系统",
@@ -154,8 +154,8 @@ DELETE /api/asset_scope/{id}
 **响应示例**：
 ```json
 {
-  "code": 0,
-  "msg": "Success",
+  "code": 200,
+  "message": "success",
   "data": {
     "deleted": 1
   }
@@ -185,8 +185,8 @@ POST /api/asset_scope/delete/
 **响应示例**：
 ```json
 {
-  "code": 0,
-  "msg": "Success",
+  "code": 200,
+  "message": "success",
   "data": {
     "deleted": 2
   }
@@ -225,8 +225,8 @@ PUT /api/asset_scope/{id}
 **响应示例**：
 ```json
 {
-  "code": 0,
-  "msg": "Success",
+  "code": 200,
+  "message": "success",
   "data": {
     "_id": "60f8c2b2e13e4b1e8c8b4567",
     "name": "更新后的分组名称",
@@ -264,8 +264,8 @@ POST /api/asset_scope/edit/
 **响应示例**：
 ```json
 {
-  "code": 0,
-  "msg": "Success",
+  "code": 200,
+  "message": "success",
   "data": {
     "updated": 1,
     "item": {
@@ -305,7 +305,7 @@ POST /api/asset_scope/edit/
 | 字段名      | 类型   | 说明                     |
 | ----------- | ------ | ------------------------ |
 | code        | number | 错误码                   |
-| msg         | string | 错误类型描述             |
+| message     | string | 错误类型描述             |
 | data.error  | string | 详细错误信息（可选）     |
 | data.name   | string | 相关分组名称（可选）     |
 | data.id     | string | 相关资源ID（可选）       |
@@ -315,7 +315,7 @@ POST /api/asset_scope/edit/
 ```json
 {
   "code": 1001,
-  "msg": "GroupNameExists",
+  "message": "GroupNameExists",
   "data": {
     "name": "已存在的分组名称"
   }
@@ -326,7 +326,7 @@ POST /api/asset_scope/edit/
 ```json
 {
   "code": 1003,
-  "msg": "NotFound",
+  "message": "NotFound",
   "data": {
     "id": "不存在的分组ID"
   }

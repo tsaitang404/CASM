@@ -41,19 +41,19 @@
 
 ```json
 {
-  "code": 0,       // 响应码，0表示成功，非0表示出错
-  "msg": "Success", // 响应消息
+  "code": 200,       // 响应码，200表示成功，非200表示出错
+  "message": "success", // 响应消息
   "data": {}       // 响应数据，格式因API而异
 }
 ```
 
 ### 通用响应字段说明
 
-| 字段名 | 类型   | 说明                                        |
-| ------ | ------ | ------------------------------------------- |
-| code   | number | 响应码，0表示成功，非0表示出错              |
-| msg    | string | 响应消息，成功时为"Success"，失败时为错误信息 |
-| data   | object | 响应数据，不同API返回的数据结构不同         |
+| 字段名   | 类型   | 说明                                        |
+| -------- | ------ | ------------------------------------------- |
+| code     | number | 响应码，200表示成功，非200表示出错          |
+| message  | string | 响应消息，成功时为"success"，失败时为错误信息 |
+| data     | object | 响应数据，不同API返回的数据结构不同         |
 
 ## 详细API说明
 
@@ -67,8 +67,8 @@ GET /api/status/
 **响应示例**：
 ```json
 {
-  "code": 0,
-  "msg": "Success",
+  "code": 200,
+  "message": "success",
   "data": {
     "mongodb": {
       "status": "running",
@@ -293,7 +293,7 @@ POST /api/batch_export/ip_port/
 | 字段名      | 类型   | 说明                     |
 | ----------- | ------ | ------------------------ |
 | code        | number | 错误码                   |
-| msg         | string | 错误类型描述             |
+| message     | string | 错误类型描述             |
 | data.error  | string | 详细错误信息（可选）     |
 | data.task_id| string | 相关任务ID（可选）       |
 
@@ -302,7 +302,7 @@ POST /api/batch_export/ip_port/
 ```json
 {
   "code": 402,
-  "msg": "TaskNotFound",
+  "message": "TaskNotFound",
   "data": {
     "task_id": "不存在的任务ID"
   }
@@ -313,7 +313,7 @@ POST /api/batch_export/ip_port/
 ```json
 {
   "code": 403,
-  "msg": "ExportFormatNotSupport",
+  "message": "ExportFormatNotSupport",
   "data": {
     "format": "不支持的格式"
   }

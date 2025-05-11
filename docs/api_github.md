@@ -46,8 +46,8 @@ GET /api/github_task/
 **响应示例**：
 ```json
 {
-  "code": 0,
-  "msg": "Success",
+  "code": 200,
+  "message": "success",
   "data": {
     "total": 15,
     "page": 1,
@@ -102,8 +102,8 @@ POST /api/github_task/
 **响应示例**：
 ```json
 {
-  "code": 0,
-  "msg": "Success",
+  "code": 200,
+  "message": "success",
   "data": {
     "_id": "60f8c2b2e13e4b1e8c8b4567",
     "name": "密钥泄露扫描",
@@ -140,8 +140,8 @@ POST /api/github_task/stop/
 **响应示例**：
 ```json
 {
-  "code": 0,
-  "msg": "Success",
+  "code": 200,
+  "message": "success",
   "data": {
     "stopped": 2
   }
@@ -166,8 +166,8 @@ DELETE /api/github_task/{id}
 **响应示例**：
 ```json
 {
-  "code": 0,
-  "msg": "Success",
+  "code": 200,
+  "message": "success",
   "data": {
     "deleted": 1
   }
@@ -191,8 +191,8 @@ POST /api/github_task/delete/
 **响应示例**：
 ```json
 {
-  "code": 0,
-  "msg": "Success",
+  "code": 200,
+  "message": "success",
   "data": {
     "deleted": 2
   }
@@ -221,8 +221,8 @@ GET /api/github_scheduler/
 **响应示例**：
 ```json
 {
-  "code": 0,
-  "msg": "Success",
+  "code": 200,
+  "message": "success",
   "data": {
     "total": 8,
     "page": 1,
@@ -280,8 +280,8 @@ POST /api/github_scheduler/
 **响应示例**：
 ```json
 {
-  "code": 0,
-  "msg": "Success",
+  "code": 200,
+  "message": "success",
   "data": {
     "_id": "60f8c2b2e13e4b1e8c8b4569",
     "name": "密钥泄露监控",
@@ -325,8 +325,8 @@ PUT /api/github_scheduler/{id}
 **响应示例**：
 ```json
 {
-  "code": 0,
-  "msg": "Success",
+  "code": 200,
+  "message": "success",
   "data": {
     "_id": "60f8c2b2e13e4b1e8c8b4569",
     "name": "更新后的监控名称",
@@ -361,8 +361,8 @@ POST /api/github_scheduler/update/
 **响应示例**：
 ```json
 {
-  "code": 0,
-  "msg": "Success",
+  "code": 200,
+  "message": "success",
   "data": {
     "updated": 1
   }
@@ -387,8 +387,8 @@ DELETE /api/github_scheduler/{id}
 **响应示例**：
 ```json
 {
-  "code": 0,
-  "msg": "Success",
+  "code": 200,
+  "message": "success",
   "data": {
     "deleted": 1
   }
@@ -412,8 +412,8 @@ POST /api/github_scheduler/delete/
 **响应示例**：
 ```json
 {
-  "code": 0,
-  "msg": "Success",
+  "code": 200,
+  "message": "success",
   "data": {
     "deleted": 2
   }
@@ -437,8 +437,8 @@ POST /api/github_scheduler/stop/
 **响应示例**：
 ```json
 {
-  "code": 0,
-  "msg": "Success",
+  "code": 200,
+  "message": "success",
   "data": {
     "stopped": 2
   }
@@ -462,8 +462,8 @@ POST /api/github_scheduler/recover/
 **响应示例**：
 ```json
 {
-  "code": 0,
-  "msg": "Success",
+  "code": 200,
+  "message": "success",
   "data": {
     "recovered": 2
   }
@@ -494,8 +494,8 @@ GET /api/github_result/
 **响应示例**：
 ```json
 {
-  "code": 0,
-  "msg": "Success",
+  "code": 200,
+  "message": "success",
   "data": {
     "total": 24,
     "page": 1,
@@ -541,8 +541,8 @@ GET /api/github_monitor_result/
 **响应示例**：
 ```json
 {
-  "code": 0,
-  "msg": "Success",
+  "code": 200,
+  "message": "success",
   "data": {
     "total": 18,
     "page": 1,
@@ -584,7 +584,7 @@ GET /api/github_monitor_result/
 ```json
 {
   "code": 1003,
-  "msg": "NotFound",
+  "message": "NotFound",
   "data": {
     "id": "不存在的任务ID"
   }
@@ -595,7 +595,7 @@ GET /api/github_monitor_result/
 ```json
 {
   "code": 1006,
-  "msg": "DuplicateName",
+  "message": "DuplicateName",
   "data": {
     "name": "已存在的任务名称"
   }
@@ -606,7 +606,7 @@ Token无效：
 ```json
 {
   "code": 1007,
-  "msg": "TokenInvalid",
+  "message": "TokenInvalid",
   "data": {
     "error": "GitHub API认证失败"
   }

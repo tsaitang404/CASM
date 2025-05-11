@@ -147,8 +147,8 @@ POST /api/vuln/delete/
 **响应示例**：
 ```json
 {
-  "code": 0,
-  "msg": "Success",
+  "code": 200,
+  "message": "success",
   "data": {
     "_id": ["60f8c2b2e13e4b1e8c8b4567", "60f8c2b2e13e4b1e8c8b4568"]
   }
@@ -176,7 +176,7 @@ POST /api/vuln/delete/
 | 字段名      | 类型   | 说明                     |
 | ----------- | ------ | ------------------------ |
 | code        | number | 错误码                   |
-| msg         | string | 错误类型描述             |
+| message     | string | 错误类型描述             |
 | data.error  | string | 详细错误信息（可选）     |
 
 ### 错误示例
@@ -184,7 +184,7 @@ POST /api/vuln/delete/
 ```json
 {
   "code": 400,
-  "msg": "InvalidParameter",
+  "message": "InvalidParameter",
   "data": {
     "error": "漏洞ID格式错误"
   }
@@ -195,7 +195,7 @@ POST /api/vuln/delete/
 ```json
 {
   "code": 500,
-  "msg": "Error",
+  "message": "Error",
   "data": {
     "error": "数据库连接失败"
   }

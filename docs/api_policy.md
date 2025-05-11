@@ -88,19 +88,19 @@
 
 ```json
 {
-  "code": 0,       // 响应码，0表示成功，非0表示出错
-  "msg": "Success", // 响应消息
+  "code": 200,       // 响应码，200表示成功，非200表示出错
+  "message": "success", // 响应消息
   "data": {}       // 响应数据，格式因API而异
 }
 ```
 
 ### 通用响应字段说明
 
-| 字段名 | 类型   | 说明                                        |
-| ------ | ------ | ------------------------------------------- |
-| code   | number | 响应码，0表示成功，非0表示出错              |
-| msg    | string | 响应消息，成功时为"Success"，失败时为错误信息 |
-| data   | object | 响应数据，不同API返回的数据结构不同         |
+| 字段名   | 类型   | 说明                                        |
+| -------- | ------ | ------------------------------------------- |
+| code     | number | 响应码，200表示成功，非200表示出错          |
+| message  | string | 响应消息，成功时为"success"，失败时为错误信息 |
+| data     | object | 响应数据，不同API返回的数据结构不同         |
 
 ## 详细API说明
 
@@ -118,8 +118,8 @@ GET /api/policy/
 **响应示例**：
 ```json
 {
-  "code": 0,
-  "msg": "Success",
+  "code": 200,
+  "message": "success",
   "data": {
     "total": 5,
     "page": 1,
@@ -280,8 +280,8 @@ POST /api/policy/add/
 **响应示例**：
 ```json
 {
-  "code": 0,
-  "msg": "Success",
+  "code": 200,
+  "message": "success",
   "data": {
     "policy_id": "60f8c2b2e13e4b1e8c8b4568"
   }
@@ -334,8 +334,8 @@ POST /api/policy/edit/
 **响应示例**：
 ```json
 {
-  "code": 0,
-  "msg": "Success",
+  "code": 200,
+  "message": "success",
   "data": {
     "data": {
       "name": "更新后的策略名称",
@@ -425,8 +425,8 @@ POST /api/policy/delete/
 **响应示例**：
 ```json
 {
-  "code": 0,
-  "msg": "Success",
+  "code": 200,
+  "message": "success",
   "data": {}
 }
 ```
@@ -449,7 +449,7 @@ POST /api/policy/delete/
 | 字段名      | 类型   | 说明                     |
 | ----------- | ------ | ------------------------ |
 | code        | number | 错误码                   |
-| msg         | string | 错误类型描述             |
+| message     | string | 错误类型描述             |
 | data.error  | string | 详细错误信息（可选）     |
 | data.policy_id | string | 相关策略ID（可选）     |
 
@@ -458,7 +458,7 @@ POST /api/policy/delete/
 ```json
 {
   "code": 1100,
-  "msg": "PolicyIDNotFound",
+  "message": "PolicyIDNotFound",
   "data": {}
 }
 ```
@@ -467,7 +467,7 @@ POST /api/policy/delete/
 ```json
 {
   "code": 1104,
-  "msg": "PortCustomInvalid",
+  "message": "PortCustomInvalid",
   "data": {
     "port_custom": "无效的端口格式"
   }
