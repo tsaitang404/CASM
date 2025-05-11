@@ -91,8 +91,13 @@ class Task(Resource):
         任务信息查询
         """
         args = self.parser.parse_args()
+        # 修复：status=running 时，包含所有运行中子状态
+        running_status_list = [
+            "running", "domain_brute", "port_scan", "find_site", "ssl_cert", "weak_brute", "poc_run", "nuclei_scan", "web_info_hunter", "alt_dns", "dns_query_plugin", "casm_search", "search_engines", "site_spider", "file_leak", "findvhost", "npoc_service_detection"
+        ]
+        if args.get("status") == "running":
+            args["status"] = {"$in": running_status_list}
         data = self.build_data(args=args, collection='task')
-
         return data
 
     @auth
