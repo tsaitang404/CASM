@@ -53,6 +53,7 @@ api.add_namespace(routes.nuclei_result_ns)
 api.add_namespace(routes.wih_ns)
 api.add_namespace(routes.asset_wih_ns)
 api.add_namespace(routes.status_ns)  # 添加系统状态检查路由
+api.add_namespace(routes.celery_task_api_ns)  # 添加Celery任务执行与管理API路由
 
 casm_update()
 

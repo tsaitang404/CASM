@@ -35,8 +35,8 @@
 
 ```json
 {
-  "code": 0,       // 响应码，0表示成功，非0表示出错
-  "msg": "Success", // 响应消息
+  "code": 200,       // 响应码，200表示成功，非200表示出错
+  "message": "success", // 响应消息
   "data": {}       // 响应数据，格式因API而异
 }
 ```
@@ -45,8 +45,8 @@
 
 | 字段名 | 类型   | 说明                                        |
 | ------ | ------ | ------------------------------------------- |
-| code   | number | 响应码，0表示成功，非0表示出错              |
-| msg    | string | 响应消息，成功时为"Success"，失败时为错误信息 |
+| code   | number | 响应码，200表示成功，非200表示出错          |
+| message| string | 响应消息，成功时为"success"，失败时为错误信息 |
 | data   | object | 响应数据，不同API返回的数据结构不同         |
 
 ## 详细API说明
@@ -74,8 +74,8 @@ GET /api/asset_domain/
 **响应示例**：
 ```json
 {
-  "code": 0,
-  "msg": "Success",
+  "code": 200,
+  "message": "success",
   "data": {
     "total": 120,
     "page": 1,
@@ -194,8 +194,8 @@ GET /api/asset_ip/
 **响应示例**：
 ```json
 {
-  "code": 0,
-  "msg": "Success",
+  "code": 200,
+  "message": "success",
   "data": {
     "total": 85,
     "page": 1,
@@ -305,8 +305,8 @@ GET /api/asset_site/
 **响应示例**：
 ```json
 {
-  "code": 0,
-  "msg": "Success",
+  "code": 200,
+  "message": "success",
   "data": {
     "total": 150,
     "page": 1,
@@ -458,8 +458,8 @@ GET /api/service/
 **响应示例**：
 ```json
 {
-  "code": 0,
-  "msg": "Success",
+  "code": 200,
+  "message": "success",
   "data": {
     "total": 75,
     "page": 1,
@@ -518,7 +518,7 @@ GET /api/service/
 | 字段名      | 类型   | 说明                     |
 | ----------- | ------ | ------------------------ |
 | code        | number | 错误码                   |
-| msg         | string | 错误类型描述             |
+| message     | string | 错误类型描述             |
 | data.error  | string | 详细错误信息（可选）     |
 
 ### 错误示例
@@ -526,7 +526,7 @@ GET /api/service/
 ```json
 {
   "code": 1004,
-  "msg": "InvalidParameter",
+  "message": "InvalidParameter",
   "data": {
     "error": "无效的IP地址格式"
   }
@@ -537,7 +537,7 @@ GET /api/service/
 ```json
 {
   "code": 1005,
-  "msg": "ExportFailed",
+  "message": "ExportFailed",
   "data": {
     "error": "查询结果为空，无数据可导出"
   }

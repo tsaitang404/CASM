@@ -6,6 +6,8 @@ from app.helpers.message_notify import push_email, push_dingding
 from app.helpers.asset_site_monitor import is_black_asset_site
 from .baseThread import BaseThread
 from .fetchSite import fetch_site
+from app.utils.conn import ConnMongo
+from datetime import datetime
 
 
 logger = utils.get_logger()
@@ -303,6 +305,23 @@ class AssetSiteMonitor(object):
 
         markdown_report = self.build_markdown_report()
         push_dingding(markdown_report=markdown_report)
+
+        # 新增：向消息系统推送详细监控变动信息
+        msg_content = f"[站点监控] 资产组: {self.scope_name} 发现变动\n"
+        if self.title_change_list:
+            msg_content += f"标题变化 {len(self.title_change_list)} 个\n"
+            for item in self.title_change_list[:5]:
+                msg_content += f"- {item['site']} 标题: {item['old_title']} => {item['title']}\n"
+        if self.status_change_list:
+            msg_content += f"状态码变化 {len(self.status_change_list)} 个\n"
+            for item in self.status_change_list[:5]:
+                msg_content += f"- {item['site']} 状态码: {item['old_status']} => {item['status']}\n"
+        ConnMongo().conn.casm.message.insert_one({
+            "content": msg_content.strip(),
+            "type": "monitor",
+            "create_time": datetime.utcnow(),
+            "read": False
+        })
 
 
 class Domain2SiteMonitor(object):
