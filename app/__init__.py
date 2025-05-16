@@ -8,3 +8,7 @@ warnings.filterwarnings("ignore", category=UserWarning,
 warnings.filterwarnings("ignore", category=UserWarning,
                         message="You're running the worker with superuser privileges")
 
+from app.routes import message_api
+
+api.add_namespace(message_api.ns, path='/api/message')
+
